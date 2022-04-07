@@ -6,13 +6,12 @@ const admin = require("firebase-admin");
 const axios = require("axios");
 const fs = require("fs").promises;
 
-const db = admin.firestore();
-
 const DOC_ROUTE = "root/hospitalData";
 
 admin.initializeApp({
   credential: admin.credential.applicationDefault(),
 });
+const db = admin.firestore();
 
 // Stores the hospital data to a local file
 const getHospitalData = async () => {
@@ -62,12 +61,35 @@ const fetchWaitTimes = async () => {
   const hospitalDocRes = await db.doc(DOC_ROUTE).get();
   const hospitalDoc = hospitalDocRes.data();
 
-  const apiRes = await axios.get(
+  const apiAxiosRes = await axios.get(
     "https://www.ha.org.hk/opendata/aed/aedwtdata-en.json"
   );
-  const waitTimes = apiRes.data;
+  const apiRes = apiAxiosRes.data;
 
-  console.log(waitTimes);
+  hospitalDoc.apiUpdateTime = apiRes.updateTime;
+  hospitalDoc.waitTimes = hospitalDoc.waitTimes.map((hospitalData) => {
+    const found = apiRes.waitTime.find(
+      (e) => e.hospName === hospitalData.name[0]
+    );
+    if (found === undefined) {
+      console.log(
+        "An error occured in matching hospital names",
+        hospitalData.name
+      );
+      return {};
+    }
+
+    const waitTimeTokenized = found.topWait.split(" ");
+
+    return {
+      ...hospitalData,
+      waitTimeValue: waitTimeTokenized[1],
+      waitTimeModifier: waitTimeTokenized[0] === "Over" ? ">" : "~",
+      waitTimeText: found.topWait,
+    };
+  });
+
+  await db.doc(DOC_ROUTE).set(hospitalDoc);
 
   return;
 
