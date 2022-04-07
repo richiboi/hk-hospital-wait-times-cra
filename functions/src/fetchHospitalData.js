@@ -83,32 +83,13 @@ const fetchWaitTimes = async () => {
 
     return {
       ...hospitalData,
-      waitTimeValue: waitTimeTokenized[1],
+      waitTimeValue: parseInt(waitTimeTokenized[1]),
       waitTimeModifier: waitTimeTokenized[0] === "Over" ? ">" : "~",
       waitTimeText: found.topWait,
     };
   });
 
   await db.doc(DOC_ROUTE).set(hospitalDoc);
-
-  return;
-
-  // const apiRes = await getAxiosData(
-  //   "https://www.ha.org.hk/opendata/aed/aedwtdata-en.json"
-  // );
-  // const apiUpdateTime = apiRes.updateTime;
-  // const waitTimeAPIData = apiRes.waitTime;
-
-  // hospitals = hospitals.map((hospital) => {
-  //   hospital.waitTimeMsg = waitTimeAPIData.find(
-  //     (elem) => hospital.name === elem.hospName
-  //   ).topWait;
-  //   hospital.waitTime = hospital.waitTimeMsg.split(" ")[1];
-  //   return hospital;
-  // });
-
-  // await db.doc("/root/hospitalData").set({ data: hospitals, apiUpdateTime });
-  // console.log("All operations successful");
 };
 
 fetchWaitTimes();
