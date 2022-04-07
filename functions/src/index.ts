@@ -7,3 +7,7 @@ import * as functions from "firebase-functions";
 //   functions.logger.info("Hello logs!", {structuredData: true});
 //   response.send("Hello from Firebase!");
 // });
+
+export const fetchWaitTimes = functions.pubsub
+  .schedule("3-48/15 * * * *")
+  .onRun(async (context) => {});
