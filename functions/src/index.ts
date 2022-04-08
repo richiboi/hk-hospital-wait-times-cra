@@ -3,6 +3,7 @@ import * as firebase from "firebase-admin";
 import { Hospital, HospitalDoc } from "../../shared/types";
 import axios from "axios";
 
+firebase.initializeApp();
 const db = firebase.firestore();
 const DOC_ROUTE = "root/hospitalData";
 

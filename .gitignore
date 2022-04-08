@@ -24,3 +24,5 @@ yarn-error.log*
 
 .vscode/
 .secrets/
+
+firebase-debug.log
