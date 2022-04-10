@@ -1,19 +1,15 @@
 import * as React from "react";
-import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
-import FormatAlignCenterIcon from "@mui/icons-material/FormatAlignCenter";
-import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
-import FormatAlignJustifyIcon from "@mui/icons-material/FormatAlignJustify";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-
-type Languages = "eng" | "tc" | "sc";
+import { useLanguageContext } from "../utils/useLanguageContext";
+import { Language } from "../utils/const";
 
 export default function ToggleLanguage() {
-  const [language, setLanguage] = React.useState<Languages>("eng");
+  const { language, setLanguage } = useLanguageContext();
 
   const handleLanguage = (
     event: React.MouseEvent<HTMLElement>,
-    newLanguage: Languages
+    newLanguage: Language
   ) => {
     if (newLanguage !== null) setLanguage(newLanguage);
   };
@@ -25,13 +21,13 @@ export default function ToggleLanguage() {
       onChange={handleLanguage}
       aria-label="text alignment"
     >
-      <ToggleButton value="eng" aria-label="english">
+      <ToggleButton value={Language.Eng} aria-label="english">
         English
       </ToggleButton>
-      <ToggleButton value="tc" aria-label="chinese traditional">
+      <ToggleButton value={Language.TC} aria-label="chinese traditional">
         繁體
       </ToggleButton>
-      <ToggleButton value="sc" aria-label="chinese simplified">
+      <ToggleButton value={Language.SC} aria-label="chinese simplified">
         简体
       </ToggleButton>
     </ToggleButtonGroup>

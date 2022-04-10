@@ -2,7 +2,6 @@ import React from "react";
 import HospitalCard from "./components/Card";
 import { useHospitalDataQuery } from "./utils/updates";
 import styled from "styled-components";
-import { MdSettings } from "react-icons/md";
 import useGeolocation from "react-hook-geolocation";
 import { getDistanceFromLatLonInKm } from "./utils/distances";
 import SettingsModal from "./components/SettingsModal";

@@ -18,6 +18,10 @@ const SettingsModal = (props: Props) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const handleGithubClick = () => {
+    window.open("https://github.com/richiboi");
+  };
+
   return (
     <>
       <Dialog
@@ -30,7 +34,11 @@ const SettingsModal = (props: Props) => {
           <h3>Language</h3>
           <ToggleLanguage />
           <p>Built using public API Data</p>
-          <IconButton aria-label="settings" size="large" onClick={handleOpen}>
+          <IconButton
+            aria-label="settings"
+            size="large"
+            onClick={handleGithubClick}
+          >
             <GitHubIcon fontSize="inherit" />
           </IconButton>
         </Container>
