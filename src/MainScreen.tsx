@@ -3,13 +3,16 @@ import HospitalCard from "./components/Card";
 import { useHospitalDataQuery } from "./utils/updates";
 import styled from "styled-components";
 import { MdSettings } from "react-icons/md";
+import useGeolocation from "react-hook-geolocation";
+import { getDistanceFromLatLonInKm } from "./utils/distances";
+import SettingsModal from "./components/SettingsModal";
 
 type Props = {};
 
 const RootContainer = styled.div`
   width: 100vw;
-  height: 100vh;
-  padding: 1.4em;
+  min-height: 100vh;
+  padding: 1.6em;
   box-sizing: border-box;
 `;
 
@@ -46,7 +49,12 @@ const SubSubtitle = styled.h3`
   font-weight: 200;
 `;
 
+const CardList = styled.div`
+  margin-bottom: 10px;
+`;
+
 const MainScreen = (props: Props) => {
+  const { longitude, latitude } = useGeolocation();
   const { data: hospitalData, isLoading } = useHospitalDataQuery();
 
   if (isLoading || !hospitalData) {
@@ -61,13 +69,21 @@ const MainScreen = (props: Props) => {
           <Subtitle>Accident & Emergency Wait Times</Subtitle>
           <SubSubtitle> Last update: {hospitalData.apiUpdateTime}</SubSubtitle>
         </HeaderTextContainer>
-        <MdSettings size={30} style={{ marginRight: "1em" }} />
+        <SettingsModal />
       </HeaderContainer>
-      <div>
+      <CardList>
         {hospitalData.waitTimes.map((hospital) => (
-          <HospitalCard data={hospital} />
+          <HospitalCard
+            data={hospital}
+            distance={getDistanceFromLatLonInKm(
+              latitude,
+              longitude,
+              hospital.latitude,
+              hospital.longitude
+            )}
+          />
         ))}
-      </div>
+      </CardList>
     </RootContainer>
   );
 };

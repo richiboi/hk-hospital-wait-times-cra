@@ -6,6 +6,7 @@ import Ring from "./Ring";
 
 type Props = {
   data: Hospital;
+  distance: number;
 };
 
 const Card = styled.div`
@@ -37,15 +38,21 @@ const District = styled.p`
   font-size: 0.9em;
 `;
 
-export default function HospitalCard({ data }: Props) {
+export default function HospitalCard({ data, distance }: Props) {
+  const getDistanceText = () => {
+    if (distance < 100) return distance.toFixed(2);
+    else if (distance < 1000) return distance.toFixed(0);
+    return Math.floor(distance / 1000) + "k ";
+  };
+
   return (
     <Card>
       <div>
         <HospitalName>{data.name[0]}</HospitalName>
         <LocationInfoWrapper>
           <MdMap size={20} />
-          <Distance>4.9km</Distance>
-          <District>New Territories</District>
+          <Distance>{getDistanceText()}km</Distance>
+          <District>{data.region[0]}</District>
         </LocationInfoWrapper>
       </div>
       <Ring time={data.waitTimeValue} />
