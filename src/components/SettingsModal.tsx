@@ -8,9 +8,23 @@ import ToggleLanguage from "./ToggleLanguage";
 type Props = {};
 
 const Container = styled.div`
-  padding: 2.2em;
+  padding: 1.2em 2em 0.4em 2em;
   min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
+
+const LanguagePicker = styled.div`
+  margin-bottom: 1em;
+  width: 100%;
+`;
+
+const LanguageText = styled.h3`
+  margin-bottom: 0.5em;
+`;
+
+const DetailText = styled.p``;
 
 const SettingsModal = (props: Props) => {
   const [open, setOpen] = useState(false);
@@ -31,9 +45,11 @@ const SettingsModal = (props: Props) => {
         aria-describedby="modal-modal-description"
       >
         <Container>
-          <h3>Language</h3>
-          <ToggleLanguage />
-          <p>Built using public API Data</p>
+          <LanguagePicker>
+            <LanguageText>Language</LanguageText>
+            <ToggleLanguage />
+          </LanguagePicker>
+          <DetailText>Built using public API Data</DetailText>
           <IconButton
             aria-label="settings"
             size="large"

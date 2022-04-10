@@ -17,6 +17,7 @@ export default function ToggleLanguage() {
   return (
     <ToggleButtonGroup
       value={language}
+      color="primary"
       exclusive
       onChange={handleLanguage}
       aria-label="text alignment"
