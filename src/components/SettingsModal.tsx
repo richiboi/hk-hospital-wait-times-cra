@@ -39,7 +39,7 @@ const SettingsModal = (props: Props) => {
   const handleClose = () => setOpen(false);
 
   const handleGithubClick = () => {
-    window.open("https://github.com/richiboi");
+    window.open("https://github.com/richiboi/hk-hospital-wait-times");
   };
 
   return (
