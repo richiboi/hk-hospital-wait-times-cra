@@ -1,5 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { Language } from "../utils/const";
+import { translations } from "../utils/translations";
+import { useLanguageContext } from "../utils/useLanguageContext";
 
 const getRingColor = (time: number) => {
   if (time < 3) {
@@ -35,11 +38,17 @@ type Props = {
 };
 
 const Ring = ({ time }: Props) => {
+  const { language } = useLanguageContext();
+
   return (
     <div>
       <RingContainer color={getRingColor(time)}>
         <WaitTimeValue>{time}</WaitTimeValue>
-        <HoursText>hr{time > 1 ? "s" : ""}</HoursText>
+        <HoursText>
+          {language === Language.Eng
+            ? "hr" + (time > 1 ? "s" : "")
+            : translations.hour[language]}
+        </HoursText>
       </RingContainer>
     </div>
   );

@@ -4,6 +4,8 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import styled from "styled-components";
 import ToggleLanguage from "./ToggleLanguage";
+import { translations } from "../utils/translations";
+import { useLanguageContext } from "../utils/useLanguageContext";
 
 type Props = {};
 
@@ -24,9 +26,13 @@ const LanguageText = styled.h3`
   margin-bottom: 0.5em;
 `;
 
-const DetailText = styled.p``;
+const DetailText = styled.p`
+  text-align: center;
+`;
 
 const SettingsModal = (props: Props) => {
+  const { language } = useLanguageContext();
+
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -46,10 +52,10 @@ const SettingsModal = (props: Props) => {
       >
         <Container>
           <LanguagePicker>
-            <LanguageText>Language</LanguageText>
+            <LanguageText>{translations.modal.language[language]}</LanguageText>
             <ToggleLanguage />
           </LanguagePicker>
-          <DetailText>Built using public API Data</DetailText>
+          <DetailText>{translations.modal.warning[language]}</DetailText>
           <IconButton
             aria-label="settings"
             size="large"

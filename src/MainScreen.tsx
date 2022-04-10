@@ -5,6 +5,9 @@ import styled from "styled-components";
 import useGeolocation from "react-hook-geolocation";
 import { getDistanceFromLatLonInKm } from "./utils/distances";
 import SettingsModal from "./components/SettingsModal";
+import { translations } from "./utils/translations";
+import { useLanguageContext } from "./utils/useLanguageContext";
+import { Skeleton } from "@mui/material";
 
 type Props = {};
 
@@ -52,37 +55,67 @@ const CardList = styled.div`
   margin-bottom: 10px;
 `;
 
-const MainScreen = (props: Props) => {
-  const { longitude, latitude } = useGeolocation();
-  const { data: hospitalData, isLoading } = useHospitalDataQuery();
+const LoadingSkeleton = () => {
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: "1em",
+      }}
+    >
+      <Skeleton sx={{ width: "80%", height: 80 }} />
+      <Skeleton variant="circular" width={50} height={50} />
+    </div>
+  );
+};
 
-  if (isLoading || !hospitalData) {
-    return <div>Loading...</div>;
+const MainScreen = (props: Props) => {
+  const { language } = useLanguageContext();
+  const { longitude, latitude } = useGeolocation();
+  const { data: hospitalData, isLoading, isError } = useHospitalDataQuery();
+
+  if (isError) {
+    return <div>An error occured</div>;
   }
 
   return (
     <RootContainer>
       <HeaderContainer>
         <HeaderTextContainer>
-          <Title>HK Hospitals</Title>
-          <Subtitle>Accident & Emergency Wait Times</Subtitle>
-          <SubSubtitle> Last update: {hospitalData.apiUpdateTime}</SubSubtitle>
+          <Title>{translations.header.title[language]}</Title>
+          <Subtitle>{translations.header.subtitle[language]}</Subtitle>
+          <SubSubtitle>
+            {translations.header.subsubtitle[language]}{" "}
+            {hospitalData?.apiUpdateTime}
+          </SubSubtitle>
         </HeaderTextContainer>
         <SettingsModal />
       </HeaderContainer>
-      <CardList>
-        {hospitalData.waitTimes.map((hospital) => (
-          <HospitalCard
-            data={hospital}
-            distance={getDistanceFromLatLonInKm(
-              latitude,
-              longitude,
-              hospital.latitude,
-              hospital.longitude
-            )}
-          />
-        ))}
-      </CardList>
+      {isLoading && !hospitalData ? (
+        <>
+          <LoadingSkeleton />
+          <LoadingSkeleton />
+          <LoadingSkeleton />
+        </>
+      ) : (
+        <CardList>
+          {hospitalData?.waitTimes.map((hospital) => (
+            <HospitalCard
+              data={hospital}
+              distance={getDistanceFromLatLonInKm(
+                latitude,
+                longitude,
+                hospital.latitude,
+                hospital.longitude
+              )}
+              key={hospital.name[0]}
+            />
+          ))}
+        </CardList>
+      )}
     </RootContainer>
   );
 };
