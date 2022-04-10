@@ -3,6 +3,7 @@ import { MdMap } from "react-icons/md";
 import styled from "styled-components";
 import { Hospital } from "../../shared/types";
 import Ring from "./Ring";
+import { useLanguageContext } from "../utils/useLanguageContext";
 
 type Props = {
   data: Hospital;
@@ -39,6 +40,8 @@ const District = styled.p`
 `;
 
 export default function HospitalCard({ data, distance }: Props) {
+  const { language } = useLanguageContext();
+
   const getDistanceText = () => {
     if (distance < 100) return distance.toFixed(2);
     else if (distance < 1000) return distance.toFixed(0);
@@ -48,11 +51,11 @@ export default function HospitalCard({ data, distance }: Props) {
   return (
     <Card>
       <div>
-        <HospitalName>{data.name[0]}</HospitalName>
+        <HospitalName>{data.name[language]}</HospitalName>
         <LocationInfoWrapper>
           <MdMap size={20} />
           <Distance>{getDistanceText()}km</Distance>
-          <District>{data.region[0]}</District>
+          <District>{data.region[language]}</District>
         </LocationInfoWrapper>
       </div>
       <Ring time={data.waitTimeValue} />
