@@ -36,7 +36,7 @@ const HeaderTextContainer = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 2.2em;
+  font-size: 1.7em;
 `;
 
 const Subtitle = styled.h2`

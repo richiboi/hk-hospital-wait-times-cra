@@ -1,6 +1,10 @@
 export const translations = {
   header: {
-    title: ["HK Hospitals", "急症室等候時間", "急症室等候时间"],
+    title: [
+      "HK Hospitals 🇭🇰",
+      "香港急症室等候時間 🇭🇰",
+      "香港急症室等候时间 🇭🇰",
+    ],
     subtitle: ["Accident & Emergency Wait Times", "", ""],
     subsubtitle: ["Last updated:", "最後更新時間:", "最后更新时间:"],
   },
