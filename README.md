@@ -1,3 +1,5 @@
+OLD: The current version is built using Next.JS
+
 # HK Hospital Wait Times
 
 Single Page App to view Hong Kong's Accident and Emergency Waiting Times at Hospitals.
